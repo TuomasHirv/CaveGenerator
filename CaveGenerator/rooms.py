@@ -1,19 +1,6 @@
-import pygame
 import random
-
+import config
 room_amount = 10
-
-tile_size = 10
-width = 100
-length = 75
-
-screen_width = width*tile_size
-screen_length = length*tile_size
-
-void_col = (0,0,0)
-wall_col = (100, 100, 100)
-floor_col = (200, 200, 200)
-added_space_col = (50, 50, 50)
 
 
 class Room:
@@ -23,34 +10,30 @@ class Room:
         self.w = w
         self.h = h
 
-def carve_room(grid, room):
-    for row in range(room.y, room.y + room.h):
-        for col in range(room.x, room.x + room.w):
-            grid.tile_map[row][col] = 1
+    def carve_room(self, grid):
+        y = self.y
+        x = self.x
 
-            if row == room.y:
-                grid.tile_map[row][col] = 2
-                if row -1 >= 0:
-                    grid.tile_map[row-1][col] = 3
+        h = self.h
+        w = self.w
 
-            if col == room.x:
-                grid.tile_map[row][col] = 2
-                if col -1 >= 0:
-                    grid.tile_map[row][col-1] = 3
-            
-            if row == room.y + room.h - 1:
-                grid.tile_map[row][col] = 2
-                if row +1 < length:
-                    grid.tile_map[row+1][col] = 3
-            
-            if col == room.x + room.w - 1:
-                grid.tile_map[row][col] = 2
-                if col+1  < width:
-                    grid.tile_map[row][col+1] = 3
+        for row in range(y, y + h):
+            for col in range(x, x + w):
+                grid.tile_map[row][col] = 1
+        
+        for col in range(x, x + w):
+            grid.tile_map[y][col] = 2
+            grid.tile_map[y + h - 1][col] = 2
 
+        for row in range(y, y + h):
+            grid.tile_map[row][x] = 2
+            grid.tile_map[row][x + w - 1] = 2
 
-
-
+        for row in range(y - 1, y + h + 1):
+            for col in range(x - 1, x + w + 1):
+                if 0 <= row < config.length and 0 <= col < config.width:
+                    if grid.tile_map[row][col] == 0:
+                        grid.tile_map[row][col] = 3
 
 class Grid():
     def __init__(self, width, length):
@@ -60,57 +43,23 @@ class Grid():
             return True
         else:
             return False
+        
+    def validation_rooms(self, x, y, w, h):
+        tiles = [(col, row) for row in range(y, y + h) for col in range(x, x + w)]
+        validation = True
+        for tile in tiles:
+            if not self.check_if_empty(tile[1], tile[0]): 
+                validation = False
+                break
+        return validation
 
 def create_rooms(grid):
     room_current_amount = 0
     while room_current_amount < room_amount:
         w, h = random.randint(4, 8), random.randint(4, 8)
-        x, y = random.randint(0, width - w), random.randint(0, length - h)
-        if validation_rooms(x, y, w, h, grid):
+        x, y = random.randint(0, config.width - w), random.randint(0, config.length - h)
+        if grid.validation_rooms(x, y, w, h):
             my_room = Room(x, y, w, h)
 
-            carve_room(grid, my_room)
+            my_room.carve_room(grid)
             room_current_amount+=1
-
-def validation_rooms(x, y, w, h, grid):
-    tiles = [(col, row) for row in range(y, y + h) for col in range(x, x + w)]
-    validation = True
-    for tile in tiles:
-        if not grid.check_if_empty(tile[1], tile[0]):
-            validation = False
-            break
-    return validation
-
-
-def main():
-    pygame.init()
-    screen = pygame.display.set_mode((screen_width, screen_length))
-    grid = Grid(width, length)
-
-    create_rooms(grid)
-
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-
-
-        screen.fill((0, 0, 0))
-
-        for row in range(length):
-            for col in range(width):
-                color = void_col
-                if grid.tile_map[row][col] == 1: color = floor_col
-                if grid.tile_map[row][col] == 2: color = wall_col
-                if grid.tile_map[row][col] == 3: color = added_space_col
-                
-                pygame.draw.rect(screen, color, 
-                                 (col * tile_size, row * tile_size, tile_size - 1, tile_size - 1))
-
-        pygame.display.flip()
-
-    pygame.quit()
-
-if __name__ == "__main__":
-    main()
