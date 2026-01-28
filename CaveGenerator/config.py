@@ -1,9 +1,9 @@
 room_amount = 10
 
-tile_size = 10
 width = 100
 length = 75
 
+tile_size = 10
 screen_width = width*tile_size
 screen_length = length*tile_size
 

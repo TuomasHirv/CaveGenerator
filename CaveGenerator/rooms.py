@@ -1,6 +1,5 @@
 import random
 import config
-room_amount = 10
 
 
 class Room:
@@ -55,7 +54,10 @@ class Grid():
 
 def create_rooms(grid):
     room_current_amount = 0
-    while room_current_amount < room_amount:
+    max_attempts = 1000
+    attempts = 0
+
+    while room_current_amount < config.room_amount and attempts < max_attempts:
         w, h = random.randint(4, 8), random.randint(4, 8)
         x, y = random.randint(0, config.width - w), random.randint(0, config.length - h)
         if grid.validation_rooms(x, y, w, h):
@@ -63,3 +65,8 @@ def create_rooms(grid):
 
             my_room.carve_room(grid)
             room_current_amount+=1
+        attempts += 1
+    if attempts >= max_attempts:
+        print("Couldn't fit all the rooms into the grid")
+        return False
+    return True
