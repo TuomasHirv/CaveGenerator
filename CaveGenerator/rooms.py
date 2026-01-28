@@ -66,10 +66,21 @@ def create_rooms(grid):
     while room_current_amount < room_amount:
         w, h = random.randint(4, 8), random.randint(4, 8)
         x, y = random.randint(0, width - w), random.randint(0, length - h)
-        my_room = Room(x, y, w, h)
+        if validation_rooms(x, y, w, h, grid):
+            my_room = Room(x, y, w, h)
 
-        carve_room(grid, my_room)
-        room_current_amount+=1
+            carve_room(grid, my_room)
+            room_current_amount+=1
+
+def validation_rooms(x, y, w, h, grid):
+    tiles = [(col, row) for row in range(y, y + h) for col in range(x, x + w)]
+    validation = True
+    for tile in tiles:
+        if not grid.check_if_empty(tile[1], tile[0]):
+            validation = False
+            break
+    return validation
+
 
 def main():
     pygame.init()
