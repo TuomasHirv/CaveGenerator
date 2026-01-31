@@ -37,6 +37,7 @@ class Room:
 class Grid():
     def __init__(self, width, length):
         self.tile_map = [[0 for _ in range(width)] for _ in range(length)]
+
     def check_if_empty(self, x, y):
         if self.tile_map[x][y] == 0:
             return True
