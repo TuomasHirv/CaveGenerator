@@ -1,3 +1,3 @@
-Viikkoraportti, viikko 1
+Olin sairaana ensimmäisellä viikolla.
 
-Viikolla yksi intialisoin projektin käyttäen poetryä.
+Tein silloin vain aiheen ja määrittely dokumentin.
