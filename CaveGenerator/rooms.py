@@ -33,6 +33,8 @@ class Room:
                 if 0 <= row < config.length and 0 <= col < config.width:
                     if grid.tile_map[row][col] == 0:
                         grid.tile_map[row][col] = 3
+        
+        return (x+(w// 2), y+(h// 2))
 
 class Grid():
     def __init__(self, width, length):
@@ -58,16 +60,18 @@ def create_rooms(grid):
     max_attempts = 1000
     attempts = 0
 
+    center_tiles = []
+
     while room_current_amount < config.room_amount and attempts < max_attempts:
         w, h = random.randint(4, 8), random.randint(4, 8)
         x, y = random.randint(0, config.width - w), random.randint(0, config.length - h)
         if grid.validation_rooms(x, y, w, h):
             my_room = Room(x, y, w, h)
 
-            my_room.carve_room(grid)
+            center_tiles.append(my_room.carve_room(grid))
             room_current_amount+=1
         attempts += 1
     if attempts >= max_attempts:
         print("Couldn't fit all the rooms into the grid")
-        return False
-    return True
+        return center_tiles
+    return center_tiles

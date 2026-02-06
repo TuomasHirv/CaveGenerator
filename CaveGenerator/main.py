@@ -3,18 +3,7 @@ import pygame
 
 import config
 from rooms import create_rooms, Grid
-
-def reset_grid(grid):
-    new_grid = Grid(config.width, config.length)
-
-    valid = create_rooms(new_grid)
-    if valid:
-        return new_grid
-    else:
-        print("Reduced the amount of rooms by 1")
-        config.room_amount -= 1
-        return grid
-
+from bowyer_watson import bowyer_watson
 def input_user_values(user_width, user_length, user_room_amount):
     if (user_room_amount < user_width*user_length/3):
         config.width = user_width
@@ -31,6 +20,7 @@ def input_user_values(user_width, user_length, user_room_amount):
 
 def main():
     #First we get user inputs.
+    points = []
     input_mode = True
     while input_mode:
         input_error = False
@@ -46,15 +36,18 @@ def main():
             input_user_values(user_width, user_length, user_room_count)
 
             grid = Grid(config.width, config.length)
+            points = create_rooms(grid)
+            connections = bowyer_watson(points)
+            for connection in connections:
+                print(connection)
 
-            if create_rooms(grid):
+            if len(points) != 0:
                 print("Success!")
                 input_mode = False
 
                 break
 
 
-    
     #Then we move to the game.
     pygame.font.init()
     font = pygame.font.SysFont('Arial', 24)
@@ -68,40 +61,46 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE: 
-                    grid = reset_grid(grid)
-                elif event.key == pygame.K_UP:
-                    config.room_amount += 1
-
-                    grid = reset_grid(grid) 
-                
-                elif event.key == pygame.K_DOWN:
-                    if config.room_amount > 1:
-                        config.room_amount -= 1
-
-                        grid = reset_grid(grid)
-
         
+        draw_grid(screen, grid)
 
-        for row in range(config.length):
-            for col in range(config.width):
-                color = config.void_col
-                if grid.tile_map[row][col] == 1: color = config.floor_col
-                if grid.tile_map[row][col] == 2: color = config.wall_col
-                
-                pygame.draw.rect(screen, color, 
-                                 (col * config.tile_size, row * config.tile_size, config.tile_size - 1, config.tile_size - 1))
+        draw_center_points(screen, points)
         
-        
-        text_str = f"Rooms: {config.room_amount}"
-        text_surface = font.render(text_str, True, (255, 255, 255))
-        pygame.draw.rect(screen, (0, 0, 0), (5, 5, text_surface.get_width() + 10, 30))
-        screen.blit(text_surface, (10, 10))
+        draw_room_connections(screen, connections)
 
         pygame.display.flip()
 
     pygame.quit()
+
+
+
+def draw_grid(screen, grid):
+    for row in range(config.length):
+        for col in range(config.width):
+            color = config.void_col
+            if grid.tile_map[row][col] == 1: color = config.floor_col
+            if grid.tile_map[row][col] == 2: color = config.wall_col
+                
+            pygame.draw.rect(screen, color, (col * config.tile_size, row * config.tile_size, config.tile_size - 1, config.tile_size - 1))
+
+
+def draw_center_points(screen, points):
+    for p in points:
+        pos_x = (p[0] * config.tile_size) + config.tile_size/2
+        pos_y = (p[1] * config.tile_size) + config.tile_size/2
+        pygame.draw.circle(screen, (255, 0, 0), (pos_x, pos_y), 4)
+
+def draw_room_connections(screen, connections):
+    for conn in connections:
+        p1, p2 = conn
+
+        start_pos = (p1[0] * config.tile_size + config.tile_size / 2, p1[1] * config.tile_size + config.tile_size / 2)
+        end_pos = (p2[0] * config.tile_size + config.tile_size / 2, p2[1] * config.tile_size + config.tile_size / 2)
+
+        pygame.draw.line(screen, (255, 255, 0), start_pos, end_pos, 1)
+
+
+
 
 if __name__ == "__main__":
     main()
