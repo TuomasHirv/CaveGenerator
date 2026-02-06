@@ -26,7 +26,7 @@ Opiskelen tietojenkäsittelytieteen kandidaatti (TKT) tutkintoa
 
 
 
-#Install instructions
+# Install instructions
 
 Clone the repository.
 Move your Console to the repository root and then to the CaveGenerator directory. 
