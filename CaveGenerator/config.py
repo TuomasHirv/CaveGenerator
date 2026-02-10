@@ -10,4 +10,4 @@ screen_length = length*tile_size
 void_col = (0,0,0)
 wall_col = (100, 100, 100)
 floor_col = (200, 200, 200)
-route_col = (156, 175, 136)
+route_col = (112, 128, 110)

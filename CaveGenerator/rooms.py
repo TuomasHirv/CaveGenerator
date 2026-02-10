@@ -47,9 +47,7 @@ class Grid():
             return False
         
     def check_if_not_room(self, x, y):
-        if self.tile_map[x][y] == 0:
-            return True
-        elif self.tile_map[x][y] == 3:
+        if self.tile_map[x][y] != 1:
             return True
         else:
             return False

@@ -45,7 +45,7 @@ def A_star(start, end):
         next = heapq.heappop(points)
         if next[2] == end:
             break
-        add_to_heap(next[2], end, next[1]+1)
+        add_to_heap(next[2], end, next[1])
     
     path = []
     if route[end[0]][end[1]] is not None:
