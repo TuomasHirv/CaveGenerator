@@ -4,6 +4,9 @@ import pygame
 import config
 from rooms import create_rooms, Grid
 from bowyer_watson import bowyer_watson
+from prims import prims
+
+
 def input_user_values(user_width, user_length, user_room_amount):
     if (user_room_amount < user_width*user_length/3):
         config.width = user_width
@@ -21,6 +24,7 @@ def input_user_values(user_width, user_length, user_room_amount):
 def main():
     #First we get user inputs.
     points = []
+    culled_connections = []
     input_mode = True
     while input_mode:
         input_error = False
@@ -38,8 +42,7 @@ def main():
             grid = Grid(config.width, config.length)
             points = create_rooms(grid)
             connections = bowyer_watson(points)
-            for connection in connections:
-                print(connection)
+            culled_connections = prims(connections)
 
             if len(points) != 0:
                 print("Success!")
@@ -50,7 +53,6 @@ def main():
 
     #Then we move to the game.
     pygame.font.init()
-    font = pygame.font.SysFont('Arial', 24)
     pygame.init()
     screen = pygame.display.set_mode((config.screen_width, config.screen_length))
 
@@ -66,7 +68,7 @@ def main():
 
         draw_center_points(screen, points)
         
-        draw_room_connections(screen, connections)
+        draw_room_connections(screen, culled_connections)
 
         pygame.display.flip()
 
