@@ -33,8 +33,8 @@ class Room:
                 if 0 <= row < config.length and 0 <= col < config.width:
                     if grid.tile_map[row][col] == 0:
                         grid.tile_map[row][col] = 3
-        
-        return (x+(w// 2), y+(h// 2))
+        point = (x+(w// 2), y+(h// 2))
+        return point
 
 class Grid():
     def __init__(self, width, length):
@@ -46,6 +46,14 @@ class Grid():
         else:
             return False
         
+    def check_if_not_room(self, x, y):
+        if self.tile_map[x][y] == 0:
+            return True
+        elif self.tile_map[x][y] == 3:
+            return True
+        else:
+            return False
+
     def validation_rooms(self, x, y, w, h):
         tiles = [(col, row) for row in range(y, y + h) for col in range(x, x + w)]
         validation = True
@@ -54,6 +62,10 @@ class Grid():
                 validation = False
                 break
         return validation
+    def carve_route(self, route):
+        for point in route:
+            if self.check_if_not_room(point[1],point[0]):
+                self.tile_map[point[1]][point[0]] = 4
 
 def create_rooms(grid):
     room_current_amount = 0
@@ -75,3 +87,8 @@ def create_rooms(grid):
         print("Couldn't fit all the rooms into the grid")
         return center_tiles
     return center_tiles
+
+
+def create_routes(list, grid):
+    for route in list:
+        grid.carve_route(route)

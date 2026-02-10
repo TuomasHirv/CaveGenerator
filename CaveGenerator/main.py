@@ -2,10 +2,10 @@ import pygame
 
 
 import config
-from rooms import create_rooms, Grid
+from rooms import create_rooms, create_routes, Grid
 from bowyer_watson import bowyer_watson
 from prims import prims
-
+from a_star import starter
 
 def input_user_values(user_width, user_length, user_room_amount):
     if (user_room_amount < user_width*user_length/3):
@@ -37,12 +37,16 @@ def main():
             input_error = True
         
         if not input_error:
+            #Most of the logic is done here
             input_user_values(user_width, user_length, user_room_count)
 
             grid = Grid(config.width, config.length)
             points = create_rooms(grid)
             connections = bowyer_watson(points)
             culled_connections = prims(connections)
+            #Below is A*
+            paths = starter(culled_connections)
+            create_routes(paths, grid)
 
             if len(points) != 0:
                 print("Success!")
@@ -82,7 +86,7 @@ def draw_grid(screen, grid):
             color = config.void_col
             if grid.tile_map[row][col] == 1: color = config.floor_col
             if grid.tile_map[row][col] == 2: color = config.wall_col
-                
+            if grid.tile_map[row][col] == 4: color = config.route_col
             pygame.draw.rect(screen, color, (col * config.tile_size, row * config.tile_size, config.tile_size - 1, config.tile_size - 1))
 
 
