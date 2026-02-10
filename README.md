@@ -23,3 +23,16 @@ https://vazgriz.com/119/procedurally-generated-dungeons/
 Uskon, että kurssin aikana joudun tutkimaan algoritmeja lisää, sillä tämä antoi minulle vain nopean käsityksen siitä, mitä projektissa tulee olemaan.
 
 Opiskelen tietojenkäsittelytieteen kandidaatti (TKT) tutkintoa
+
+
+
+# Install instructions
+
+Clone the repository.
+Move your Console to the repository root and then to the CaveGenerator directory. 
+run poetry install
+poetry add pygame
+then run
+python main.py
+or
+python3 main.py
