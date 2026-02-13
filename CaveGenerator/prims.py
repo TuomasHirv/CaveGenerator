@@ -9,7 +9,7 @@ def distance(a, b):
 def reindex_connections(list):
     #Creating a dictionary from list for faster lookup time
     #This dictionary has all edges for a point and the distance between
-    edges_dict= defaultdict(set)
+    edges_dict = defaultdict(set)
     for edge in list:
         dist = distance(edge[0], edge[1])
         edges_dict[edge[0]].add((dist, edge[0], edge[1]))
