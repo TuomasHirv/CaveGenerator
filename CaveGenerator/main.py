@@ -7,15 +7,22 @@ from bowyer_watson import bowyer_watson
 from prims import prims
 from a_star import starter
 
+def default_config():
+    config.room_amount = 10
+    config.width = 100
+    config.length = 75
+
+
 def input_user_values(user_width, user_length, user_room_amount):
     if (user_room_amount < user_width*user_length/3):
-        config.width = user_width
-        config.length = user_length
-        config.room_amount = user_room_amount
+        config.width = max(20, user_width)
+        config.length = max(20, user_length)
+        config.room_amount = max(3, user_room_amount)
 
         config.screen_width = config.width*config.tile_size
         config.screen_length = config.length*config.tile_size
     else:
+        default_config()
         print("Too many rooms using defaults!")
 
 
@@ -31,9 +38,9 @@ def main():
         try:
             user_width = int(input("Enter the grid width between 20 and 100 as an integer: "))
             user_length = int(input("Enter the grid length between 20 and 100 as an integer: "))
-            user_room_count = int(input("Enter the amount of rooms as an integer. Grid size must be big enough for the rooms: "))
+            user_room_count = int(input("Enter the amount of rooms as an integer >=3. Grid size must be big enough for the rooms: "))
         except ValueError:
-            print("Invalid input! Using defaults")
+            print("Invalid input!")
             input_error = True
         
         if not input_error:
@@ -41,8 +48,8 @@ def main():
             input_user_values(user_width, user_length, user_room_count)
 
             grid = Grid(config.width, config.length)
-            points = create_rooms(grid)
-            connections = bowyer_watson(points)
+            points = create_rooms(grid, config.room_amount)
+            connections = bowyer_watson(points, config.width, config.length)
             culled_connections = prims(connections)
             #Below is A*
             paths = starter(culled_connections)

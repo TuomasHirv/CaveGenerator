@@ -1,6 +1,5 @@
-import numpy as np
-import config
-import random
+
+
 
 #This file will feature alot more comments than necessary as it is quite complex.
 
@@ -39,16 +38,16 @@ def in_circle(tri, point):
         return A[0] < D[0]
 
 
-def get_super_triangle():
-    margin = max(config.screen_length, config.screen_width)*10
+def get_super_triangle(screen_length, screen_width):
+    margin = max(screen_length, screen_width)*10
     p1 = (-margin, -margin)
-    p2 = (config.screen_width//2, margin *2)
-    p3 = (config.screen_width + margin, -margin)
+    p2 = (screen_width//2, margin *2)
+    p3 = (screen_width + margin, -margin)
     return (p1, p2, p3)
 
-def bowyer_watson(points):
+def bowyer_watson(points, screen_length, screen_width):
     #This algorithm works by creating and destroying existing triangles if in their circumcircle there is a point. 
-    super_triangle = get_super_triangle()
+    super_triangle = get_super_triangle(screen_length, screen_width)
     triangles = [super_triangle]
     for p in points:
         #We add points one by one and check for triangles that need to be destroyed.

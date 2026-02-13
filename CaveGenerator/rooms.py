@@ -1,5 +1,4 @@
 import random
-import config
 
 
 class Room:
@@ -30,7 +29,7 @@ class Room:
 
         for row in range(y - 1, y + h + 1):
             for col in range(x - 1, x + w + 1):
-                if 0 <= row < config.length and 0 <= col < config.width:
+                if 0 <= row < grid.length and 0 <= col < grid.width:
                     if grid.tile_map[row][col] == 0:
                         grid.tile_map[row][col] = 3
         point = (x+(w// 2), y+(h// 2))
@@ -39,6 +38,8 @@ class Room:
 class Grid():
     def __init__(self, width, length):
         self.tile_map = [[0 for _ in range(width)] for _ in range(length)]
+        self.length = length
+        self.width = width
 
     def check_if_empty(self, x, y):
         if self.tile_map[x][y] == 0:
@@ -65,16 +66,16 @@ class Grid():
             if self.check_if_not_room(point[1],point[0]):
                 self.tile_map[point[1]][point[0]] = 4
 
-def create_rooms(grid):
+def create_rooms(grid, room_amount):
     room_current_amount = 0
     max_attempts = 1000
     attempts = 0
 
     center_tiles = []
 
-    while room_current_amount < config.room_amount and attempts < max_attempts:
+    while room_current_amount < room_amount and attempts < max_attempts:
         w, h = random.randint(4, 8), random.randint(4, 8)
-        x, y = random.randint(0, config.width - w), random.randint(0, config.length - h)
+        x, y = random.randint(0, grid.width - w), random.randint(0, grid.length - h)
         if grid.validation_rooms(x, y, w, h):
             my_room = Room(x, y, w, h)
 
