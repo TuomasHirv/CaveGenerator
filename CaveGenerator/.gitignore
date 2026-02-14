@@ -5,3 +5,4 @@ __pycache__/rooms.cpython-312.pyc
 
 .env
 .venv
+.coverage

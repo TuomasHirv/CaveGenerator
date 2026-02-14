@@ -52,7 +52,7 @@ def main():
             connections = bowyer_watson(points, config.width, config.length)
             culled_connections = prims(connections)
             #Below is A*
-            paths = starter(culled_connections)
+            paths = starter(culled_connections, config.length, config.width)
             create_routes(paths, grid)
 
             if len(points) != 0:
@@ -67,19 +67,22 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((config.screen_width, config.screen_length))
 
+    image = pygame.Surface(screen.get_size())
+
+    image.fill((0, 0, 0))
+    draw_grid(image, grid)
+
+    draw_center_points(image, points)
+        
+    draw_room_connections(image, culled_connections)
 
     running = True
     while running:
-        screen.fill((0, 0, 0))
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        
-        draw_grid(screen, grid)
-
-        draw_center_points(screen, points)
-        
-        draw_room_connections(screen, culled_connections)
+        screen.blit(image, (0, 0))
 
         pygame.display.flip()
 
