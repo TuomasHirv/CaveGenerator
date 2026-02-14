@@ -29,7 +29,28 @@ def test_a_star(benchmark, size):
 
     assert result != None
 
-@pytest.mark.parametrize("points", [100, 200, 300, 400])
+def mock_connections(points):
+    """Creating maximum amount of connections"""
+    edges = []
+    edges.append(((0,0), (1,0)))
+    edges.append(((1,0), (2,0)))
+    edges.append(((2,0), (0,0)))
+    for i in range(3, points):
+        current = (i, 0)
+        previous = (i-1, 0)
+        edges.append((current, (0,0)))
+        edges.append((current, (1,0)))
+        edges.append((current, previous))
+    return edges
+
+
+@pytest.mark.parametrize("points", [100, 200, 400, 800])
 def test_prims(benchmark, points):
     """Prims should run in ElogV time. E = connections between points, V = number of rooms"""
+
+    edges = mock_connections(points)
+
+    result = benchmark(prims, edges)
+
+    assert len(result) > 0
     

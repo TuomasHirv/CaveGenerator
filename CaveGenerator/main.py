@@ -50,6 +50,7 @@ def main():
             grid = Grid(config.width, config.length)
             points = create_rooms(grid, config.room_amount)
             connections = bowyer_watson(points, config.width, config.length)
+            print(len(connections), "hard limit connections:", 3*len(points)-1)
             culled_connections = prims(connections)
             #Below is A*
             paths = starter(culled_connections, config.length, config.width)
