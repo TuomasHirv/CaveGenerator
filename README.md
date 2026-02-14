@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/TuomasHirv/CaveGenerator/graph/badge.svg?token=TVX9WDK5WS)](https://codecov.io/gh/TuomasHirv/CaveGenerator)
+
 # CaveGenerator
 Aineopintojen harjoitustyö. Helsingin Yliopiston kurssiin.
 
