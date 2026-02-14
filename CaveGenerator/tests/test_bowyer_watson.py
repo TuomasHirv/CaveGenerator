@@ -12,7 +12,7 @@ def test_super_triangle():
     assert c == (100 + margin, -margin)
 
 def test_bowyer_watson():
-    """Testing that bowyer watson creates enough and not too many points"""
+    """Testing that bowyer watson creates enough and not too many connections"""
     n = 10
     random_points = set()
     width = 50

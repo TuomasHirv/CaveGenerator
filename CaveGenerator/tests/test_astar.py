@@ -49,7 +49,7 @@ def test_trace_fail_route():
 
 
 
-def test_a_star(capsys):
+def test_a_star():
     """Testing the a_star function directly"""
     n = 35
 
@@ -58,7 +58,6 @@ def test_a_star(capsys):
     p2 = (31, 25)
 
     a_star.A_star(p1, p2, n, n)
-
 
 
 def test_whole_file():
@@ -74,5 +73,37 @@ def test_whole_file():
     list = [edge_1, edge_2, edge_3, edge_4, edge_5]
 
     routes = a_star.starter(list, n, n)
+
+    assert len(routes) == 5
+
+def test_whole_file_asymmetrical():
+    """Testing if the file works with a screen that isnt symmetrical"""
+    width = 20
+    length = 70
+    edge_1 = ((5, 3), (19, 60))
+    edge_2 = ((0, 0), (width-1, length-1))
+    edge_3 = ((8, 50), (8, 30))
+    edge_4 = ((width-1, length-1), (0, 0))
+    edge_5 = ((15, 0), (18, 5))
+
+    list = [edge_1, edge_2, edge_3, edge_4, edge_5]
+
+    routes = a_star.starter(list, length, width)
+
+    assert len(routes) == 5
+
+def test_whole_file_asymmetrical_flipped():
+    """Testing if the file works with a screen that isnt symmetrical"""
+    width = 70
+    length = 20
+    edge_1 = ((5, 3), (60, 19))
+    edge_2 = ((0, 0), (width-1, length-1))
+    edge_3 = ((8, 8), (8, 17))
+    edge_4 = ((width-1, length-1), (0, 0))
+    edge_5 = ((15, 0), (20, 5))
+
+    list = [edge_1, edge_2, edge_3, edge_4, edge_5]
+
+    routes = a_star.starter(list, length, width)
 
     assert len(routes) == 5
