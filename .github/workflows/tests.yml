@@ -24,11 +24,11 @@ jobs:
         run: poetry install --no-root
 
       - name: Run tests with coverage
-        run: poetry run pytest --cov=CaveGenerator --cov-report=xml
+        working-directory: ./CaveGenerator
+        run: poetry run pytest --cov=. --cov-report=xml:coverage.xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./CaveGenerator/coverage.xml
-          fail_ci_if_error: true
+          files: ./CaveGenerator/coverage.xml
