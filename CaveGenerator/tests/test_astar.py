@@ -71,7 +71,7 @@ def test_whole_file():
     edge_4 = ((31, 25), (5, 3))
     edge_5 = ((15, 0), (20, 5))
 
-    list = [edge_1, edge_2, edge_3, edge_4], edge_5
+    list = [edge_1, edge_2, edge_3, edge_4, edge_5]
 
     routes = a_star.starter(list, n, n)
 
