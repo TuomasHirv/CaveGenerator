@@ -27,3 +27,8 @@ dev = [
     "pytest-benchmark (>=5.2.3,<6.0.0)",
     "pytest-cov (>=7.0.0,<8.0.0)"
 ]
+[tool.coverage.run]
+# This tells coverage.py to ignore these files
+omit = [
+    "tests/*",          # Ignore everything in the tests folder
+]
