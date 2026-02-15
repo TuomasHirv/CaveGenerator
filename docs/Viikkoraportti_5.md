@@ -28,8 +28,12 @@ Tämä tulee olemaan haastavaa, toivottavasti muut algoritmit noudattavat halutt
 Saatan tehdä lisää unittestejä main.py tiedostoa varten.
 Saatan tehdä lisä toiminnallisuuksia ohjelmiston visualisointia varten.
 
+## AI:n käyttö
+- Performanssi ja pytestien ymmärtäminen.
+- Lisä selitys B_W algoritmille.
+- Prims algoritmin opetteleminen.
 
 ## AJAT (Teen näitä hieman myöhässä, niin olen unohtanut millä päivällä tein mitä)
 - tein noin 5 tuntia A_star ja Prims algoritmia.
 - 2 tuntia pytestejä (muutin hieman koodia samalla kun huomasin asioita testeistä.)
-- alle 1 tunti performanssi testejä.
+- 2 tuntia performanssi testejä.
