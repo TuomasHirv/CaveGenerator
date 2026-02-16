@@ -77,7 +77,7 @@ class Grid():
             return False
         
     def check_if_not_room(self, x, y):
-        if self.tile_map[x][y] != 1 and self.tile_map[x][y] != 2:
+        if self.tile_map[x][y] != 1:
             return True
         else:
             return False
@@ -115,7 +115,7 @@ class Grid():
 
 def create_rooms(grid, room_amount):
     room_current_amount = 0
-    max_attempts = 1000
+    max_attempts = 100000
     attempts = 0
 
     center_tiles = []

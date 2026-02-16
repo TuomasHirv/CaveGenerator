@@ -36,6 +36,8 @@ def A_star(start, end, length, width, tile_map):
                     added_cost = tile_val + 0.5
                 elif tile_val == 4:
                     added_cost = 0
+                elif tile_val == 2 or tile_val == 1:
+                    added_cost = 1
                 else:
                     added_cost = 0.4
                 n_weight = added_cost * weight
