@@ -54,7 +54,7 @@ def main():
             input_mode = False
             break
 
-    #Adding ability to view cave generation step by step
+    
 
     #Then we move to the game.
     pygame.font.init()
@@ -64,12 +64,24 @@ def main():
     image = pygame.Surface(screen.get_size())
 
     image.fill((0, 0, 0))
-
+    speed = 3
+    offsetY = 0
+    offsetX = 0
     running = True
     while running:
+        #Adding ability to view cave generation step by step
         if not done:
             image, grid, points, connections = draw_in_stages(stage, image, grid, points, connections)
             done = True
+        keys_pressed = pygame.key.get_pressed()
+        if keys_pressed[pygame.K_w]:
+            offsetY += speed
+        if keys_pressed[pygame.K_s]:
+            offsetY -= speed
+        if keys_pressed[pygame.K_a]:
+            offsetX += speed
+        if keys_pressed[pygame.K_d]:
+            offsetX -= speed
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -79,7 +91,7 @@ def main():
                     if stage < 5:
                         stage += 1
                         done = False
-        screen.blit(image, (0, 0))
+        screen.blit(image, (offsetX, offsetY))
 
         pygame.display.flip()
 
