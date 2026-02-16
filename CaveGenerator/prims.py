@@ -1,6 +1,6 @@
 from collections import defaultdict
 import heapq
-
+import random
 def distance(a, b):
     #real distance doesnt matter so using the squared distance
     dist = ((a[0] - b[0])**2) + ((a[1] - b[1])**2)
@@ -27,15 +27,18 @@ def prims(edges):
         heapq.heappush(connections, conn)
     
     culled_list = []
+
+    extra_connections = []
     while connections:
         next = heapq.heappop(connections)
         if next[2] in reached_points:
-            pass
+            if random.randint(0, 12) == 12:
+                extra_connections.append((next[1], next[2]))
         else:
             reached_points.add(next[2])
             culled_list.append((next[1], next[2]))
             for conn in dict[next[2]]:
                 heapq.heappush(connections, conn)
-
+    culled_list.extend(extra_connections)
     return culled_list
 

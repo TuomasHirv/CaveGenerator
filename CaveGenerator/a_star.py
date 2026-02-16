@@ -11,41 +11,36 @@ def distance(a, b):
 
 
 
-def A_star(start, end, length, width):
-    
+def A_star(start, end, length, width, grid):
+    weight = 10
     points = []
     route = [[None for _ in range(length)] for _ in range(width)]
+
     #Storing the route in an array for faster lookup
     route[start[0]][start[1]]=(-1,-1)
+    f_scores = [[None for _ in range(length)] for _ in range(width)]
+
     #(f_score, g_score, coordinates)
     heapq.heappush(points, (distance(start, end), 0, (start[0],start[1])))
+    f_scores[start[0]][start[1]] = distance(start, end)
+
     def add_to_heap(point, end, g_score):
         x, y = point
-        if x+1 < width:
-            if route[x+1][y] == None:
-                heapq.heappush(points, (distance((x+1,y), end) + g_score, g_score, (x+1,y)))
-                route[x+1][y]=(x, y)
+        for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1),]:
+            next_x, next_y = (x + dx, y + dy)
+            if 0 <= next_x < width and 0 <= next_y < length:
 
-        if x-1 >= 0:
-            if route[x-1][y] == None:
-                heapq.heappush(points, (distance((x-1,y), end) + g_score, g_score, (x-1,y)))
-                route[x-1][y]=(x, y)
-
-        if y+1 < length:
-            if route[x][y+1] == None:
-                heapq.heappush(points, (distance((x,y+1), end) + g_score, g_score, (x,y+1)))
-                route[x][y+1]=(x, y)
-
-        if y-1 >= 0:
-            if route[x][y-1] == None:
-                heapq.heappush(points, (distance((x,y-1), end) + g_score, g_score, (x,y-1)))
-                route[x][y-1]=(x, y)
+                if route[next_x][next_y] == None or f_scores[next_x][next_y] > distance((next_x,next_y), end) + g_score:
+                    n_weight = grid.check_for_weigth(next_y, next_x) * weight
+                    heapq.heappush(points, (distance((next_x,next_y), end) + g_score + n_weight, g_score + n_weight, (next_x, next_y)))
+                    f_scores[next_x][next_y] = distance((next_x,next_y), end) + g_score
+                    route[next_x][next_y]=(x, y)
 
     while points:
         next = heapq.heappop(points)
         if next[2] == end:
             break
-        add_to_heap(next[2], end, next[1])
+        add_to_heap(next[2], end, next[1] + 1)
     
     return route
 
@@ -66,9 +61,12 @@ def trace_route(route, end, start):
 
 
 
-def starter(edges, length, width):
+def starter(edges, length, width, grid):
     routes = []
     for edge in edges:
-        map = (A_star(edge[0], edge[1], length, width))
-        routes.append(trace_route(map, edge[1], edge[0]))
+        map = (A_star(edge[0], edge[1], length, width, grid))
+        route = trace_route(map, edge[1], edge[0])
+        routes.append(route)
+        grid.carve_route(route)
+    print("AMOUNT OF ROUTES: ", len(routes))
     return routes

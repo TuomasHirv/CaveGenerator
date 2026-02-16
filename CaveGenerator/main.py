@@ -2,7 +2,7 @@ import pygame
 
 
 import config
-from rooms import create_rooms, create_routes, Grid
+from rooms import create_rooms, Grid
 from bowyer_watson import bowyer_watson
 from prims import prims
 from a_star import starter
@@ -11,21 +11,26 @@ def default_config():
     config.room_amount = 10
     config.width = 100
     config.length = 75
+    config.mountains = 3
 
 
-def input_user_values(user_width, user_length, user_room_amount):
+def input_user_values(user_width, user_length, user_room_amount, mountains_amount):
     if (user_room_amount < user_width*user_length/3):
         config.width = max(20, user_width)
         config.length = max(20, user_length)
         config.room_amount = max(3, user_room_amount)
-
+        config.mountains = mountains_amount
         config.screen_width = config.width*config.tile_size
         config.screen_length = config.length*config.tile_size
     else:
         default_config()
         print("Too many rooms using defaults!")
 
+def height_to_color(height):
+    height = max(0.0, min(0.9, height))
 
+    return (255*height, 255*height, 255*height)
+    
 
 
 def main():
@@ -41,15 +46,16 @@ def main():
             user_width = int(input("Enter the grid width between 20 and 100 as an integer: "))
             user_length = int(input("Enter the grid length between 20 and 100 as an integer: "))
             user_room_count = int(input("Enter the amount of rooms as an integer >=3. Grid size must be big enough for the rooms: "))
+            mountains_amount = int(input("Enter the amount of mountains as an integer: "))
         except ValueError:
             print("Invalid input!")
             input_error = True
         
         if not input_error:
             #Most of the logic is done here
-            input_user_values(user_width, user_length, user_room_count)
+            input_user_values(user_width, user_length, user_room_count, mountains_amount)
 
-            grid = Grid(config.width, config.length)
+            grid = Grid(config.width, config.length, config.mountains)
             print("Use the space bar to view the generation in stages!")
             input_mode = False
             break
@@ -124,8 +130,8 @@ def draw_in_stages(stage, image, grid, points, connections):
             return image, grid, points, connections
         case 4:
             image.fill((0, 0, 0))
-            paths = starter(connections, config.length, config.width)
-            create_routes(paths, grid)
+            paths = starter(connections, config.length, config.width, grid)
+            #create_routes(paths, grid)
 
             draw_grid(image, grid)
             draw_center_points(image, points)
@@ -143,9 +149,12 @@ def draw_grid(screen, grid):
     for row in range(config.length):
         for col in range(config.width):
             color = config.void_col
+            if grid.tile_map[row][col] < 1: color = height_to_color(grid.tile_map[row][col])
             if grid.tile_map[row][col] == 1: color = config.floor_col
             if grid.tile_map[row][col] == 2: color = config.wall_col
             if grid.tile_map[row][col] == 4: color = config.route_col
+            if grid.tile_map[row][col] == 5: color = config.route_worn_col
+            if grid.tile_map[row][col] == 6: color = config.route_2xworn_col
             pygame.draw.rect(screen, color, (col * config.tile_size, row * config.tile_size, config.tile_size, config.tile_size))
 
 

@@ -10,7 +10,7 @@ def test_grid_creation():
     """
     width = 100
     length = 100
-    grid = rooms.Grid(width, length)
+    grid = rooms.Grid(width, length, 0)
 
     assert grid.tile_map[0][0] == 0
     assert grid.tile_map[width-1][length-1] == 0
@@ -19,7 +19,7 @@ def test_room_creation():
     """
     Testing creating 1 room
     """
-    grid = rooms.Grid(20, 20)
+    grid = rooms.Grid(20, 20, 0)
     points = rooms.create_rooms(grid, 1)
 
     assert len(points) != 0
@@ -28,7 +28,7 @@ def test_creation_minimum_space():
     """
     Testing creating on the smallest grid the most rooms
     """
-    grid = rooms.Grid(20, 20)
+    grid = rooms.Grid(20, 20, 0)
     points = rooms.create_rooms(grid, (20/20)*3)
 
     assert len(points) != 0
@@ -37,7 +37,7 @@ def test_too_many_rooms(capsys):
     """
     Testing creating too many rooms
     """
-    grid = rooms.Grid(20, 20)
+    grid = rooms.Grid(20, 20, 0)
 
     points = rooms.create_rooms(grid, 400)
     captured = capsys.readouterr()
@@ -48,7 +48,7 @@ def test_if_empty():
     """
     Testing if atleast 24 tiles are filled.
     """
-    grid = rooms.Grid(20, 20)
+    grid = rooms.Grid(20, 20, 0)
     points = rooms.create_rooms(grid, 1)
     counter = 0
     for x in range(0, 19):
@@ -60,5 +60,15 @@ def test_if_empty():
     assert counter >= 24
 
 
-
+def test_mountain():
+    """
+    Testing creating on the smallest grid the most rooms
+    """
+    grid = rooms.Grid(20, 20, 1)
+    counter = 0
+    for x in range(0, 19):
+        for y in range(0, 19):
+            if grid.tile_map[x][y] > 0:
+                counter +=1
+    assert counter > 10
 

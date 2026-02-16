@@ -1,5 +1,6 @@
 import pytest
 import a_star
+from rooms import Grid
 
 def test_distance():
     """Basic check to test distance"""
@@ -14,6 +15,7 @@ def test_distance():
 def test_trace_route():
     """Test for route tracing function"""
     n = 10
+
     route = [[None for _ in range(n)] for _ in range(n)]
 
     for x in range(n-1):
@@ -52,17 +54,19 @@ def test_trace_fail_route():
 def test_a_star():
     """Testing the a_star function directly"""
     n = 35
+    grid = Grid(n, n, 0)
 
     p1 = (5, 3)
 
     p2 = (31, 25)
 
-    a_star.A_star(p1, p2, n, n)
+    a_star.A_star(p1, p2, n, n, grid)
 
 
 def test_whole_file():
     """Testing the whole file run from starter"""
     n = 35
+    grid = Grid(n, n, 0)
 
     edge_1 = ((5, 3), (31, 25))
     edge_2 = ((0, 0), (10, 10))
@@ -72,7 +76,7 @@ def test_whole_file():
 
     list = [edge_1, edge_2, edge_3, edge_4, edge_5]
 
-    routes = a_star.starter(list, n, n)
+    routes = a_star.starter(list, n, n, grid)
 
     assert len(routes) == 5
 
@@ -80,6 +84,7 @@ def test_whole_file_asymmetrical():
     """Testing if the file works with a screen that isnt symmetrical"""
     width = 20
     length = 70
+    grid = Grid(width, length, 0)
     edge_1 = ((5, 3), (19, 60))
     edge_2 = ((0, 0), (width-1, length-1))
     edge_3 = ((8, 50), (8, 30))
@@ -88,7 +93,7 @@ def test_whole_file_asymmetrical():
 
     list = [edge_1, edge_2, edge_3, edge_4, edge_5]
 
-    routes = a_star.starter(list, length, width)
+    routes = a_star.starter(list, length, width, grid)
 
     assert len(routes) == 5
 
@@ -96,6 +101,7 @@ def test_whole_file_asymmetrical_flipped():
     """Testing if the file works with a screen that isnt symmetrical"""
     width = 70
     length = 20
+    grid = Grid(width, length, 0)
     edge_1 = ((5, 3), (60, 19))
     edge_2 = ((0, 0), (width-1, length-1))
     edge_3 = ((8, 8), (8, 17))
@@ -104,6 +110,6 @@ def test_whole_file_asymmetrical_flipped():
 
     list = [edge_1, edge_2, edge_3, edge_4, edge_5]
 
-    routes = a_star.starter(list, length, width)
+    routes = a_star.starter(list, length, width, grid)
 
     assert len(routes) == 5
