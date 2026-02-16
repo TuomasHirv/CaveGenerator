@@ -42,6 +42,8 @@ class Grid():
         self.tile_map = self.create_mountain(mountains)
 
     def create_mountain(self, n):
+        if n == 0:
+            return [[0 for _ in range(self.width)] for _ in range(self.length)]
         tilemap = [[0 for _ in range(self.width)] for _ in range(self.length)]
         while n > 0:
             (start_x, start_y) = (random.randint(5, self.width-5), random.randint(5, self.length-5))

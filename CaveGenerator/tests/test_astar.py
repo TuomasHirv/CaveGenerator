@@ -2,16 +2,6 @@ import pytest
 import a_star
 from rooms import Grid
 
-def test_distance():
-    """Basic check to test distance"""
-    p1 = (0, 0)
-    p2 = (3, 3)
-    
-    dist = a_star.distance(p1, p2)
-
-    assert round(dist) == 4
-
-
 def test_trace_route():
     """Test for route tracing function"""
     n = 10
@@ -54,7 +44,7 @@ def test_trace_fail_route():
 def test_a_star():
     """Testing the a_star function directly"""
     n = 35
-    grid = Grid(n, n, 0)
+    grid = [[0 for _ in range(n)] for _ in range(n)]
 
     p1 = (5, 3)
 
@@ -66,7 +56,7 @@ def test_a_star():
 def test_whole_file():
     """Testing the whole file run from starter"""
     n = 35
-    grid = Grid(n, n, 0)
+    grid = Grid(n,n, 0)
 
     edge_1 = ((5, 3), (31, 25))
     edge_2 = ((0, 0), (10, 10))

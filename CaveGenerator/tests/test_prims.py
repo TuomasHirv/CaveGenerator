@@ -23,9 +23,9 @@ def test_reindex_edges():
     assert len(conns[(2,2)]) == 2
 
 def test_prims():
-    """Prims should always give n-1 connections (n is node amount)"""
+    """Prims should always give n-1 connections (n is node amount) But i have added additional code that sometimes adds new routes"""
     list = [((0,0), (1,1)), ((1,1), (2,2)), ((2,2), (0,0))]
 
     conns = prims.prims(list)
 
-    assert len(conns) == 2
+    assert len(conns) >= 2
