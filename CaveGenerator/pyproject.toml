@@ -20,7 +20,7 @@ packages = [{include = "cavegenerator", from = "src"}]
 
 [tool.pylint]
 ignore = [".venv", "poetry.lock", "__pycache__"]
-
+fail-under = 9.5
 [tool.pylint.typecheck]
 generated-members = ["pygame.*"]
 [build-system]
