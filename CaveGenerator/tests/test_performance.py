@@ -1,10 +1,10 @@
-import pytest
+"""Benchmark test for algorithms"""
 import random
+import pytest
 
 from bowyer_watson import bowyer_watson
 from prims import prims
 from a_star import A_star
-from rooms import Grid
 
 @pytest.mark.parametrize("amount", [100, 200, 300, 400])
 @pytest.mark.order(1)
@@ -17,7 +17,7 @@ def test_b_w_benchmark(benchmark, amount):
 
     result = benchmark(bowyer_watson, points, length, width)
 
-    assert result != None
+    assert result is not None
 
 @pytest.mark.parametrize("size", [20, 40, 80, 160])
 @pytest.mark.order(2)
@@ -30,7 +30,7 @@ def test_a_star(benchmark, size):
 
     result = benchmark(A_star, start, end, size, size, tile_map)
 
-    assert result != None
+    assert result is not None
 
 def mock_connections(points):
     """Creating maximum amount of connections"""
@@ -57,4 +57,3 @@ def test_prims(benchmark, points):
     result = benchmark(prims, edges)
 
     assert len(result) > 0
-    

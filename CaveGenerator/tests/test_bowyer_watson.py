@@ -1,4 +1,4 @@
-import pytest
+"""Testing Bowyer_Watson implementation"""
 import random
 import bowyer_watson
 
@@ -19,8 +19,8 @@ def test_bowyer_watson():
     length = 50
     while len(random_points) < n:
         random_points.add((random.randint(0, width-1), random.randint(0, length-1)))
-    
+
     connections = bowyer_watson.bowyer_watson(random_points, width, length)
-    
+
     assert len(connections) >= (2*n - 3)
     assert len(connections) <= (3*n - 6)

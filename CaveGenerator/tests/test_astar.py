@@ -1,4 +1,4 @@
-import pytest
+"""Testing A* algorithm"""
 import a_star
 from rooms import Grid
 
@@ -10,16 +10,16 @@ def test_trace_route():
 
     for x in range(n-1):
         for y in range(n-1):
-            if x == 0 and y == y:
+            if x == 0 and y == 0:
                 route[x][y] = (-1, -1)
             elif x > 0:
                 route[x][y] = (x-1, y)
             else:
                 route[x][y] = (x, y-1)
-    
+
     path = a_star.trace_route(route, (0,0), (n-1, n-1))
 
-    assert path != None
+    assert path is not None
 
 def test_trace_fail_route():
     """Test for route tracing function"""
@@ -28,16 +28,16 @@ def test_trace_fail_route():
 
     for x in range(n-1):
         for y in range(n-1):
-            if x == 0 and y == y:
+            if x == 0 and y == 0:
                 route[x][y] = (-1, -1)
             elif x > 0:
                 route[x][y] = (x-1, y)
             else:
                 route[x][y] = (x, y-1)
-    
+
     path = a_star.trace_route(route, (n-1, n-1), (0,0))
 
-    assert path == None
+    assert path is None
 
 
 
@@ -49,8 +49,11 @@ def test_a_star():
     p1 = (5, 3)
 
     p2 = (31, 25)
+    edge = (p1, p2)
+    size = (n, n)
+    new_grid = a_star.A_star(edge, size, grid)
 
-    a_star.A_star(p1, p2, n, n, grid)
+    assert new_grid[5][3] != (0, 0)
 
 
 def test_whole_file():
@@ -64,9 +67,9 @@ def test_whole_file():
     edge_4 = ((31, 25), (5, 3))
     edge_5 = ((15, 0), (20, 5))
 
-    list = [edge_1, edge_2, edge_3, edge_4, edge_5]
+    e_list = [edge_1, edge_2, edge_3, edge_4, edge_5]
 
-    routes = a_star.starter(list, n, n, grid)
+    routes = a_star.starter(e_list, n, n, grid)
 
     assert len(routes) == 5
 
@@ -81,9 +84,9 @@ def test_whole_file_asymmetrical():
     edge_4 = ((width-1, length-1), (0, 0))
     edge_5 = ((15, 0), (18, 5))
 
-    list = [edge_1, edge_2, edge_3, edge_4, edge_5]
+    e_list = [edge_1, edge_2, edge_3, edge_4, edge_5]
 
-    routes = a_star.starter(list, length, width, grid)
+    routes = a_star.starter(e_list, length, width, grid)
 
     assert len(routes) == 5
 
@@ -98,8 +101,8 @@ def test_whole_file_asymmetrical_flipped():
     edge_4 = ((width-1, length-1), (0, 0))
     edge_5 = ((15, 0), (20, 5))
 
-    list = [edge_1, edge_2, edge_3, edge_4, edge_5]
+    e_list = [edge_1, edge_2, edge_3, edge_4, edge_5]
 
-    routes = a_star.starter(list, length, width, grid)
+    routes = a_star.starter(e_list, length, width, grid)
 
     assert len(routes) == 5

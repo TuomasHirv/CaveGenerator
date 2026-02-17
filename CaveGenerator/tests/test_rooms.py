@@ -1,6 +1,4 @@
-import pytest
-import config
-
+"""Testing rooms.py file."""
 
 import rooms
 
@@ -58,6 +56,7 @@ def test_if_empty():
                 if counter == 24:
                     break
     assert counter >= 24
+    assert len(points) == 1
 
 
 def test_mountain():
@@ -71,4 +70,3 @@ def test_mountain():
             if grid.tile_map[x][y] > 0:
                 counter +=1
     assert counter > 10
-

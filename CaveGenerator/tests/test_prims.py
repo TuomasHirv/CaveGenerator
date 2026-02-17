@@ -1,4 +1,4 @@
-import pytest
+"""This is a file for unittesting prims-algorithm"""
 import prims
 
 def test_distance():
@@ -14,18 +14,19 @@ def test_distance():
 
 def test_reindex_edges():
     """Basic test for reindexing indexes as it is quite simple"""
-    list = [((0,0), (1,1)), ((1,1), (2,2)), ((2,2), (0,0)), ]
+    edges = [((0,0), (1,1)), ((1,1), (2,2)), ((2,2), (0,0)), ]
 
-    conns = prims.reindex_connections(list)
+    conns = prims.reindex_connections(edges)
 
     assert len(conns[(0,0)]) == 2
     assert len(conns[(1,1)]) == 2
     assert len(conns[(2,2)]) == 2
 
 def test_prims():
-    """Prims should always give n-1 connections (n is node amount) But i have added additional code that sometimes adds new routes"""
-    list = [((0,0), (1,1)), ((1,1), (2,2)), ((2,2), (0,0))]
+    """Prims should always give n-1 connections (n is node amount)"""
+    #Currently i am adding additional connections for a more interesting generation.
+    edges = [((0,0), (1,1)), ((1,1), (2,2)), ((2,2), (0,0))]
 
-    conns = prims.prims(list)
+    conns = prims.prims(edges)
 
     assert len(conns) >= 2

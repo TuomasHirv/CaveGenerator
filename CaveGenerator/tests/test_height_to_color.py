@@ -1,7 +1,8 @@
+"""Testing height_to_color"""
 from main import height_to_color
-import pytest
 
 def test_correct():
+    """Testing the correct values"""
     h = 0.5
     goal = (255*h, 255*h, 255*h)
 
@@ -9,7 +10,8 @@ def test_correct():
     assert col == goal
 
 
-def test_correct():
+def test_incorrect_low():
+    """Testing with a too low value"""
     h = -1
     goal = (0, 0, 0)
 
@@ -17,7 +19,8 @@ def test_correct():
     assert col == goal
 
 
-def test_correct():
+def test_incorrect_high():
+    """Testing with a too high value"""
     h = 2
     goal = (255*0.9, 255*0.9, 255*0.9)
 
