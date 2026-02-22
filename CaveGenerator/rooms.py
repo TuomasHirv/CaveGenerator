@@ -2,6 +2,7 @@
 import random
 from collections import deque
 import math
+from a_star import A_star, trace_route
 class Room:
     """The class for object of type Room"""
     def __init__(self, x, y, w, h):
@@ -92,16 +93,6 @@ class Grid():
     def check_if_not_room(self, x, y):
         """Checks if a tile is room"""
         return self.tile_map[x][y] != 1
-
-    def check_for_weigth(self, x, y):
-        """Returns the terrain value of a specific tile"""
-        #Here we check for the terrain weight
-        if self.tile_map[x][y] < 1:
-            return self.tile_map[x][y]+0.5
-        if self.tile_map[x][y] == 4:
-            #Making it cheaper to traverse on already created roads
-            return 0
-        return 0.4
 
     def validation_rooms(self, x, y, w, h):
         """Checks if a room is possible"""
