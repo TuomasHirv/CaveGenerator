@@ -1,13 +1,17 @@
-room_amount = 10
+"""Previously used for storing values now legacy"""
+ROOM_AMOUNT = 10
 
-width = 100
-length = 75
+WIDTH = 100
+LENGTH = 75
+MOUNTAINS = 3
 
-tile_size = 5
-screen_width = width*tile_size
-screen_length = length*tile_size
+TILE_SIZE = 5
+SCREEN_WIDTH = WIDTH*TILE_SIZE
+SCREEN_LENGTH = LENGTH*TILE_SIZE
 
-void_col = (0,0,0)
-wall_col = (100, 100, 100)
-floor_col = (200, 200, 200)
-route_col = (112, 128, 110)
+VOID_COL = (0,0,0)
+WALL_COL = (101, 67, 33)
+FLOOR_COL = (222, 184, 135)
+ROUTE_COL = (235, 200, 100)
+ROUTE_WORN_COL =  (235, 120, 50)
+ROUTE_2XWORN_COL = (180, 40, 40)

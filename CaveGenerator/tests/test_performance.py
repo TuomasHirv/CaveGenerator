@@ -1,12 +1,13 @@
-import pytest
+"""Benchmark test for algorithms"""
 import random
+import pytest
 
 from bowyer_watson import bowyer_watson
 from prims import prims
 from a_star import A_star
 
-
 @pytest.mark.parametrize("amount", [100, 200, 300, 400])
+@pytest.mark.order(1)
 def test_b_w_benchmark(benchmark, amount):
     """B_W should run in nlogn time."""
     #Here i test it with increasing amount to check how its run time increases.
@@ -16,18 +17,20 @@ def test_b_w_benchmark(benchmark, amount):
 
     result = benchmark(bowyer_watson, points, length, width)
 
-    assert result != None
+    assert result is not None
 
 @pytest.mark.parametrize("size", [20, 40, 80, 160])
+@pytest.mark.order(2)
 def test_a_star(benchmark, size):
     """A_star should run in ElogV time. E = amount of connections, V = amount of tiles"""
     #Increasing the size of the grid and at the same time increasing the size of the required path.
+    tile_map = [[0 for _ in range(size)] for _ in range(size)]
     start = (0, 0)
     end = (size-1, size-1)
 
-    result = benchmark(A_star, start, end, size, size)
+    result = benchmark(A_star, start, end, size, size, tile_map)
 
-    assert result != None
+    assert result is not None
 
 def mock_connections(points):
     """Creating maximum amount of connections"""
@@ -45,6 +48,7 @@ def mock_connections(points):
 
 
 @pytest.mark.parametrize("points", [100, 200, 400, 800])
+@pytest.mark.order(3)
 def test_prims(benchmark, points):
     """Prims should run in ElogV time. E = connections between points, V = number of rooms"""
 
@@ -53,4 +57,3 @@ def test_prims(benchmark, points):
     result = benchmark(prims, edges)
 
     assert len(result) > 0
-    
