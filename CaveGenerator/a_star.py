@@ -33,8 +33,8 @@ def A_star(edge, measure, tile_map):
             if 0 <= next_x < width and 0 <= next_y < length:
                 tile_val = tile_map[next_y][next_x]
                 if tile_val < 1:
-                    added_cost = tile_val + 0.5
-                elif tile_val == 4:
+                    added_cost = tile_val*2
+                elif tile_val in (4, 5, 6):
                     added_cost = 0
                 elif tile_val in (1, 2):
                     added_cost = 1

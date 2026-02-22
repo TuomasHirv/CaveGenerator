@@ -173,7 +173,6 @@ def draw_grid(screen, grid):
                 color = config.ROUTE_WORN_COL
             if grid.tile_map[row][col] == 6:
                 color = config.ROUTE_2XWORN_COL
-
             rect = (col * config.TILE_SIZE,
                     row * config.TILE_SIZE,
                     config.TILE_SIZE,
