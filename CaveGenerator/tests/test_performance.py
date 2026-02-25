@@ -28,7 +28,7 @@ def test_a_star(benchmark, size):
     start = (0, 0)
     end = (size-1, size-1)
 
-    result = benchmark(A_star, start, end, size, size, tile_map)
+    result = benchmark(A_star, (start, end), (size,size), tile_map)
 
     assert result is not None
 

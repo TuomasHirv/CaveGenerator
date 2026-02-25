@@ -73,6 +73,12 @@ def test_whole_file():
 
     assert len(routes) == 5
 
+    assert len(routes[0]) == 48+2
+    assert len(routes[1]) == 20+2
+    assert len(routes[2]) == 22+2
+    assert len(routes[3]) == 48+2
+    assert len(routes[4]) == 10+2
+
 def test_whole_file_asymmetrical():
     """Testing if the file works with a screen that isnt symmetrical"""
     width = 20
@@ -90,6 +96,13 @@ def test_whole_file_asymmetrical():
 
     assert len(routes) == 5
 
+    assert len(routes[0]) == 71+2
+    assert len(routes[1]) == width + length -2 +2
+    assert len(routes[2]) == 20+2
+    assert len(routes[3]) == width + length -2 +2
+    assert len(routes[4]) == 8+2
+
+
 def test_whole_file_asymmetrical_flipped():
     """Testing if the file works with a screen that isnt symmetrical"""
     width = 70
@@ -106,3 +119,9 @@ def test_whole_file_asymmetrical_flipped():
     routes = a_star.starter(e_list, length, width, grid)
 
     assert len(routes) == 5
+
+    assert len(routes[0]) == 71+2
+    assert len(routes[1]) == width + length -2 +2
+    assert len(routes[2]) == 9+2
+    assert len(routes[3]) == width + length -2 +2
+    assert len(routes[4]) == 10+2
