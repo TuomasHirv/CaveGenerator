@@ -125,16 +125,17 @@ def draw_in_stages(stage, image, grid, points, connections):
             return image, grid, points, None
         case 2:
             image.fill((0, 0, 0))
-            connections = bowyer_watson(points, config.WIDTH, config.LENGTH)
-
+            connections, extra_connections = bowyer_watson(points, config.WIDTH, config.LENGTH)
+            connections.extend(extra_connections)
             draw_grid(image, grid)
             draw_center_points(image, points)
             draw_room_connections(image, connections)
             return image, grid, points, connections
         case 3:
             image.fill((0, 0, 0))
-            connections = prims(connections)
-
+            connections, extra_connections = prims(connections)
+            connections.extend(extra_connections)
+            
             draw_grid(image, grid)
             draw_center_points(image, points)
             draw_room_connections(image, connections)

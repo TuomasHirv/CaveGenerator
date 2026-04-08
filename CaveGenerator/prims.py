@@ -42,5 +42,4 @@ def prims(edges):
             culled_list.append((e_next[1], e_next[2]))
             for conn in e_dict[e_next[2]]:
                 heapq.heappush(connections, conn)
-    culled_list.extend(extra_connections)
-    return culled_list
+    return culled_list, extra_connections
