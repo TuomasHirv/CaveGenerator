@@ -73,7 +73,12 @@ def test_square():
                            ((0, 0), (0, 3)),
                            ((0, 3), (3, 0))]
 
+#Here we create a random triangulation with n=100.
+#Then we get all of the edges of every point. Iterate through all points.
+#Iterate through every edge of a point checking that from every edge we can
+#reach the original point. 
 
+#This way we know all are part of atleast 1 triangle and all points are in.
 def test_triangles_and_all_points():
     """test that all edges and points are in a triangle"""
     n = 100
@@ -95,7 +100,7 @@ def test_triangles_and_all_points():
             correct = False
             second_point = first[1]
             for second in edges_dict[second_point]:
-                if second == first:
+                if second[1] == first[0]:
                     continue
 
                 third_point = second[1]
@@ -136,6 +141,17 @@ def test_no_edge_crossings():
             if segments_intersect(a, b, c, d):
                 assert False
 
+
+#We are cheking the intersecting lines with the orientation of a created triangle.
+#This works by taking 2 lines. First we take line 1 and create a triangle with a point
+#from the second line. Calculate the orientation of this line. Do the same again for second point.
+#Orientation of these triangles is opposite(clockwise to counterclockwise) if the points of the 
+#second line are on opposite sides of line 1. Since our edges are of finite length we must continue.
+#We do the same from the perspective of line 2. If the first check gave opposite rotations but
+#lines dont cross because of their lengths line 2 should give the same rotations.
+
+#If both are true then the edges cross if only one they miss each other.
+#If neither then lines couldnt cross no matter the length.
 def segments_intersect(p1, q1, p2, q2):
     """checks if lines cross each other"""
     o1 = orientation(p1, q1, p2)
@@ -154,6 +170,8 @@ def orientation(a, b, c):
         return 0
     return 1 if val > 0 else 2
 
+
+#Repurposed function from prims algorithm file
 def reindex_connections(edges_list):
     """Indexes connections to a dictionary"""
     #So i can reliably and quickly check all edges from all points
