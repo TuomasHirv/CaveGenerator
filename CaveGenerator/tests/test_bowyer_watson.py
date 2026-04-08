@@ -55,6 +55,67 @@ def test_points_line_mirrored():
 
     assert len(connections) == 0
 
+#This is important because when checking for overlapping edges
+#i dont check for this condition. This would be the value == 0 case.
+def test_no_overlapping_edges_line():
+    """test that with additional points no overlapping edges are created"""
+    i = 10
+    width = 50
+    length = 50
+    #first create a random line of points
+    while i > 0:
+        n = 10
+        points = []
+        line_x = random.randint(10, width-10)
+        points.append((line_x, 3))
+        points.append((line_x, 9))
+        points.append((line_x, 10))
+        points.append((line_x, 16))
+        while n > 0:
+            new_point = (random.randint(0, length-1), random.randint(0, width-1))
+            points.append(new_point)
+            n -= 1
+        connections = bowyer_watson.bowyer_watson(points, width, length)
+        #Making sure that possible overlapping edges arent in edges.
+        assert ((line_x, 3), (line_x, 10)) not in connections
+        assert ((line_x, 9), (line_x, 16)) not in connections
+        assert ((line_x, 3), (line_x, 16)) not in connections
+        assert ((line_x, 10), (line_x, 3)) not in connections
+        assert ((line_x, 16), (line_x, 9)) not in connections
+        assert ((line_x, 16), (line_x, 3)) not in connections
+        i -= 1
+
+#This is important because when checking for overlapping edges
+#i dont check for this condition. This would be the value == 0 case.
+def test_no_overlapping_edges_line_mirrored():
+    """test that with additional points no overlapping edges are created"""
+    #line axis swapped
+    i = 10
+    width = 50
+    length = 50
+    #first create a random line of points
+    while i > 0:
+        n = 10
+        points = []
+        line_y = random.randint(10, length-10)
+        points.append((3, line_y))
+        points.append((9, line_y))
+        points.append((10, line_y))
+        points.append((16, line_y))
+        while n > 0:
+            new_point = (random.randint(0, length-1), random.randint(0, width-1))
+            points.append(new_point)
+            n -= 1
+        connections = bowyer_watson.bowyer_watson(points, width, length)
+        #Making sure that possible overlapping edges arent in edges.
+        assert ((3, line_y), (10, line_y)) not in connections
+        assert ((9, line_y), (16, line_y)) not in connections
+        assert ((3, line_y), (16, line_y)) not in connections
+        assert ((10, line_y), (3, line_y)) not in connections
+        assert ((16, line_y), (9, line_y)) not in connections
+        assert ((16, line_y), (3, line_y)) not in connections
+        i -= 1
+
 
 def test_square():
     """when given a square of points returns 2 triangles (always the same)"""
@@ -76,7 +137,11 @@ def test_square():
 #Here we create a random triangulation with n=100.
 #Then we get all of the edges of every point. Iterate through all points.
 #Iterate through every edge of a point checking that from every edge we can
-#reach the original point. 
+#reach the original point.
+#There is a colinear case where the edges overlap as a line.
+#Instead of adding additional coverage for that case here i made a more robust
+#test case for it. It should ensure that no overlapping edges can be created that way.
+
 
 #This way we know all are part of atleast 1 triangle and all points are in.
 def test_triangles_and_all_points():
@@ -145,7 +210,7 @@ def test_no_edge_crossings():
 #We are cheking the intersecting lines with the orientation of a created triangle.
 #This works by taking 2 lines. First we take line 1 and create a triangle with a point
 #from the second line. Calculate the orientation of this line. Do the same again for second point.
-#Orientation of these triangles is opposite(clockwise to counterclockwise) if the points of the 
+#Orientation of these triangles is opposite(clockwise to counterclockwise) if the points of the
 #second line are on opposite sides of line 1. Since our edges are of finite length we must continue.
 #We do the same from the perspective of line 2. If the first check gave opposite rotations but
 #lines dont cross because of their lengths line 2 should give the same rotations.

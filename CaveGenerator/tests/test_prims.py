@@ -28,7 +28,7 @@ def test_prims():
     #Currently i am adding additional connections for a more interesting generation.
     edges = [((0,0), (1,1)), ((1,1), (2,2)), ((2,2), (0,0))]
 
-    conns, extra_connections = prims.prims(edges)
+    conns, _ = prims.prims(edges)
 
     assert len(conns) == 2
 
@@ -46,17 +46,18 @@ def test_large_sample():
             (7, 77), (49, 5), (59, 60), (95, 2), (88, 44)]
     connections = bowyer_watson.bowyer_watson(points, 100, 100)
 
-    culled_connections, extra_connections = prims.prims(connections)
+    culled_connections, _ = prims.prims(connections)
     checked_points = set()
     for a, b in culled_connections:
         checked_points.add(a)
         checked_points.add(b)
-    
+
     assert checked_points == set(points)
     assert len(culled_connections) == len(points) - 1
 
 
 def test_hardcoded():
+    """testing prims algorithm with a hardcoded expected value"""
     points = [(0, 0),
             (2, 0),
             (4, 0),
@@ -70,7 +71,7 @@ def test_hardcoded():
     ]
     connections = bowyer_watson.bowyer_watson(points, 10, 10)
 
-    culled, extra = prims.prims(connections)
+    culled, _ = prims.prims(connections)
     expected = [
     ((2, 2), (0, 2)),
     ((0, 2), (0, 0)),
@@ -83,5 +84,3 @@ def test_hardcoded():
     ((2, 4), (4, 4)),
     ]
     assert culled == expected
-
-
