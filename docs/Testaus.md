@@ -1,4 +1,5 @@
 Tehty 25.02.26
+Muokattu 08.04.26
 
 # Coverage
 https://app.codecov.io/gh/TuomasHirv/CaveGenerator
@@ -34,10 +35,16 @@ Muitten tiedostojen coverage on 100%
 - Testing creating super triangle. Simple test.
 - Testing bowyer watson to make sure it gives the amount of connections that is between the maximum amount and minimum.
 
+- Added testing that ensures edge cases work: rectangular positioning for points, points in a straight line.
+- Added testing that ensures all edges are a part of a triangle and all points are part included in triangulation.
+- Added testing that ensures no edges cross each other using orientation checking.
 ## Prims algorithm
 
 - Testing distance algorithm is simple.
 - Testing for prims culling edges. This is supposted to always be n-1 (n = amount of points). But now i add additional connections in the function so it no longer can look at that.
+
+- Added tests that ensure prims returns the correct amount of connections given a triangulation. With a large sample.
+- Added tests that compare prims to a hard coded optimal path from a triangulation.
 
 ## User Input.
 - Simple tests (These arent algorithmic and dont need same detail)
